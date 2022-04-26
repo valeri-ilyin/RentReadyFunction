@@ -5,9 +5,9 @@
 ### Проекты входящие в Solution
 ##### RentReady.Server
   Серверная логика. Ключевые классы бизнес логики:
-- TimeEntryCreator
-- TimeEntryRepository
-- TimeIntervalParser
+- TimeEntryCreator - логика создания записей TimeEntry по заданному интервалу 
+- TimeEntryRepository - репозиторий доступа к таблице TimeEntry в PowerApp 
+- TimeIntervalParser - парсинг и валидация Json запроса с интервалом StartOn - EndOn
 
 ##### RentReady.Client
   Небольшой клиент, позволяющий посылать запросы в функцию. Создан для тестирования
