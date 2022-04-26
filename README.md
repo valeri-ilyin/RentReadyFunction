@@ -29,7 +29,8 @@ https://rentready.azurewebsites.net/api/TimeEntryFunction
 1. Создайте новый Azure Function инстанс в portal.azure.com на нужном аккаунте
 2. Продеплойте в него RentReadyFunction: у проекта RentReadyFunction в контекстном меню выбрать "Publish..."
    Далее нажать "New" в появившемся окне и следовать пошаговой инструкции в этом окне.
-3. После публикации функции идем в portal.azure.com в созданную нами функцию. Там нужно добавить ключ PowerAppConnection в Application Setting с этим значение. Это мой тестовый инстанс PowerApp. Вместо него можно использовать connection string к вашему инстансу PowerApp   
+3. После публикации функции идем в portal.azure.com в созданную нами функцию. Там нужно добавить ключ PowerAppConnection в Application Setting с этим значение. Это мой тестовый инстанс PowerApp. Вместо него можно использовать connection string к вашему инстансу PowerApp.
+
    `AuthType=OAuth;Username=valeriilyin@valeritiral.onmicrosoft.com;Password=sU89SaU5;Url=https://org9e2371cc.crm4.dynamics.com;AppId=51f81489-12ee-4a9e-aaae-a2591f45987d;RedirectUri=app://58145B91-0C36-4500-8554-080854F2AC97;LoginPrompt=None`
 4. Ключ PowerAppConnection добавляем здесь через "New Application Settings". Не забудьте нажать Save после добавления ключа   
    ![New Application Settings](add-app-settings.png)
