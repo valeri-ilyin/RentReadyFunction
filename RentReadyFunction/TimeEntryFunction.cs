@@ -20,7 +20,7 @@ namespace RentReadyFunction
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var processor = new RequestProcessor(log);
+            var processor = new TimeEntryRequestProcessor(log);
             return await processor.ProcessAsync(requestBody);
         }
     }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RentReady.Client
 {
+	/// <summary>
+	/// Клиентская версия Интервала (начальная и конечная даты) по которому создаются и запрашиваются записи TimeEntry
+	/// </summary>
 	public class TimeInterval
 	{
 		public DateTime StartOn { get; set; }

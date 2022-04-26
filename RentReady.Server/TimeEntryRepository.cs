@@ -9,6 +9,9 @@ using Microsoft.Xrm.Sdk.Query;
 
 namespace RentReady.Server
 {
+	/// <summary>
+	/// Репозиторий для таблицы TimeEntry. Реализует все необходимые CRUD операции для таблицы TimeEntry в PowerApp
+	/// </summary>
 	public sealed class TimeEntryRepository : ITimeEntryRepository, IDisposable
 	{
 		public static readonly string StartField = "msdyn_start";
@@ -26,6 +29,11 @@ namespace RentReady.Server
 			}
 		}
 
+		/// <summary>
+		////Получить TimeEntry запись по id
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public async Task<TimeEntry> GetTimeEntryAsync(Guid id)
 		{
 			var columns = new ColumnSet();
@@ -33,6 +41,12 @@ namespace RentReady.Server
 			return EntityToTimeEntry(await client.RetrieveAsync(EntityName, id, columns));
 		}
 
+		/// <summary>
+		/// Получить список TimeEntry записей по переденному фильтру
+		/// Граничные значения фильтра сравниваются через >= и <=, те они попадают в результирующую выборку 
+		/// </summary>
+		/// <param name="interval"></param>
+		/// <returns></returns>
 		public async IAsyncEnumerable<TimeEntry> GetTimeEntryListAsync(TimeInterval interval)
 		{
 			ConditionExpression condition1 = new ConditionExpression();
@@ -63,6 +77,10 @@ namespace RentReady.Server
 			}
 		}
 
+		/// <summary>
+		/// Получение ВСЕХ записей из таблицы TimeEntry. Используется только в тестах 
+		/// </summary>
+		/// <returns></returns>
 		public async IAsyncEnumerable<TimeEntry> GetAllTimeEntryAsync()
 		{
 			QueryExpression query = new QueryExpression(EntityName);
@@ -75,6 +93,12 @@ namespace RentReady.Server
 			}
 		}
 
+		/// <summary>
+		/// Создать запись TimeEntry
+		/// </summary>
+		/// <param name="entry"></param>
+		/// <returns></returns>
+		/// <exception cref="ApplicationException"></exception>
 		public async Task<Guid> CreateTimeEntryAsync(TimeEntry entry)
 		{
 			var item = new Entity(EntityName);
@@ -90,6 +114,10 @@ namespace RentReady.Server
 			return id;
 		}
 
+		/// <summary>
+		/// Удаление ВСЕХ записей в таблице TimeEntry. Используется только для тестов
+		/// </summary>
+		/// <returns></returns>
 		public async Task DeleteAll()
 		{
 			await foreach (var item in GetAllTimeEntryAsync())
@@ -109,6 +137,11 @@ namespace RentReady.Server
 
 		~TimeEntryRepository() => Dispose();
 
+		/// <summary>
+		/// Конвертация списка Entity в список TimeEntry
+		/// </summary>
+		/// <param name="entities"></param>
+		/// <returns></returns>
 		private IEnumerable<TimeEntry> EntityListToTimeEntry(DataCollection<Entity> entities)
 		{
 			foreach (var item in entities)
@@ -117,6 +150,11 @@ namespace RentReady.Server
 			}
 		}
 
+		/// <summary>
+		/// Конвертация Entity в TimeEntry
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
 		private TimeEntry EntityToTimeEntry(Entity entity)
 		{
 			var start = entity.Attributes.ContainsKey(StartField) ? (DateTime)entity.Attributes[StartField] : DateTime.MinValue;

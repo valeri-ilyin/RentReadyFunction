@@ -10,6 +10,9 @@ using Newtonsoft.Json.Schema;
 
 namespace RentReady.Test.Unit
 {
+	/// <summary>
+	/// Тесты для TimeIntervalParser -  парсинг и влидация запроса
+	/// </summary>
 	[TestClass]
 	public class TimeIntervalParserTest
 	{
@@ -27,6 +30,9 @@ namespace RentReady.Test.Unit
 			Assert.AreEqual(DateTimeHelper.CreateDateTime(2022, 2, 2), timeInterval.EndOn);	
 		}
 
+		/// <summary>
+		/// Отсутствует поле StartOn
+		/// </summary>
 		[TestMethod]
 		[ExpectedException(typeof(JSchemaValidationException))]
 		public void ParseEmptyField()
@@ -38,6 +44,9 @@ namespace RentReady.Test.Unit
 			var timeInterval = new TimeIntervalParser().Parse(json);
 		}
 
+		/// <summary>
+		/// Некорректная дата
+		/// </summary>
 		[TestMethod]
 		[ExpectedException(typeof(JSchemaValidationException))]
 		public void ParseIncorrectDate()
@@ -51,6 +60,9 @@ namespace RentReady.Test.Unit
 		}
 
 
+		/// <summary>
+		/// Валидация кейса, когда StartOn календарно раньше чем EndOn
+		/// </summary>
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentException))]
 		public void ParseStartDateAfterEndDate()
@@ -63,6 +75,9 @@ namespace RentReady.Test.Unit
 			var timeInterval = new TimeIntervalParser().Parse(json);
 		}
 
+		/// <summary>
+		/// Некорректная дата - со временем
+		/// </summary>
 		[TestMethod]
 		[ExpectedException(typeof(JSchemaValidationException))]
 		public void ParseIncorrectDateWithTime()

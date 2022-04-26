@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace RentReady.Server
 {
+	/// <summary>
+	/// Доменный объект для записи в таблице TimeEntry
+	/// </summary>
 	public class TimeEntry
 	{
 		public Guid Id { get; set; }

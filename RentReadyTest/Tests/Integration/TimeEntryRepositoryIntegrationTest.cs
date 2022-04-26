@@ -7,6 +7,10 @@ using System.Linq;
 
 namespace RentReady.Test.Integration
 {
+	/// <summary>
+	/// Интеграционный тесты для TimeEntryRepository. В ходе работы этих тестов записи TimeEntry физически создаются в PowerApp
+	/// Внимание: в этих тестах происходит полная очистка таблицы данных при каждом запуске  
+	/// </summary>
 	[TestClass]
 	public class TimeEntryRepositoryIntegrationTest
 	{

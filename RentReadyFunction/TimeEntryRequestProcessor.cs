@@ -12,15 +12,26 @@ using System.Threading.Tasks;
 
 namespace RentReadyFunction
 {
-	public class RequestProcessor
+
+	/// <summary>
+	/// Класс содежит высокоуровневую логику обработки запроса, пришедшего в функцию
+	/// </summary>
+	public class TimeEntryRequestProcessor
 	{
 		private ILogger log;
 
-		public RequestProcessor(ILogger log)
+		public TimeEntryRequestProcessor(ILogger log)
 		{
 			this.log = log;
 		}
 
+
+		/// <summary>
+		/// Главная входная точка. Метод должен запускаться из основого тела функции 
+		/// Метод парсит запрос, пришедщий из функции, создает все необходымые экземпляры классов и запускает обработку запроса
+		/// </summary>
+		/// <param name="requestBody"></param>
+		/// <returns></returns>
 		public async Task<IActionResult> ProcessAsync(string requestBody)
 		{
 			try

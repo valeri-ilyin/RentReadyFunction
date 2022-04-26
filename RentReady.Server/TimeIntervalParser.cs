@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace RentReady.Server
 {
+    /// <summary>
+    /// Парсинг и валидация JSON с запросом к функции TimeEntryFunction
+    /// </summary>
 	public class TimeIntervalParser
 	{
         private IsoDateTimeConverter dateTimeConverter;

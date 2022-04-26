@@ -3,6 +3,9 @@ using System.Text;
 
 namespace RentReady.Client
 {
+	/// <summary>
+	/// Класс клиент к функции RentReadyFunction. Позволяет вызывать методы, доступные в этой функции
+	/// </summary>
 	public class TimeEntryClient
 	{
 		private static readonly HttpClient client = new HttpClient();
@@ -17,6 +20,11 @@ namespace RentReady.Client
 			jsonSettings.DateFormatString = "yyyy-MM-dd";
 		}
 
+		/// <summary>
+		/// Вызов метода функции для создание TimeEntry записей на сервере по переданному интервалу
+		/// </summary>
+		/// <param name="interval"></param>
+		/// <returns></returns>
 		public async Task<int> AddInterval(TimeInterval interval)
 		{
 			var content = new StringContent(JsonConvert.SerializeObject(interval, jsonSettings), Encoding.UTF8, "application/json");

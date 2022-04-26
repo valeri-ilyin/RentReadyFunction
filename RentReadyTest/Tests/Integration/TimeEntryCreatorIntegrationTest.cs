@@ -7,9 +7,18 @@ using System.Linq;
 
 namespace RentReady.Test.Integration
 {
+
+	/// <summary>
+	/// Интеграционный тесты для TimeEntryCreator. В ходе работы этих тестов записи TimeEntry физически создаются в PowerApp
+	/// Внимание: в этих тестах происходит полная очистка таблицы данных при каждом запуске  
+	/// </summary>
 	[TestClass]
 	public class TimeEntryCreatorIntegrationTest
 	{
+		/// <summary>
+		/// Создание TimeEntry записей и проверка что они создались в PowerApp
+		/// </summary>
+		/// <returns></returns>
 		[TestMethod]
 		public async Task CreateForInterval()
 		{
@@ -32,19 +41,6 @@ namespace RentReady.Test.Integration
 
 			var itemsAfter2 = await repo.GetAllTimeEntryAsync().ToListAsync();
 			Assert.AreEqual(6, itemsAfter2.Count, "6 элемент в базе");
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
-		public async Task CreateForIntervalMaxInterval()
-		{
-			using var repo = new TimeEntryRepository(ConfigurationHelper.GetPowerAppConnection());
-			var creator = new TimeEntryCreator(repo);
-
-			var start = DateTimeHelper.CreateDateTime(2022, 4, 01);
-			var end = start.AddDays(TimeEntryCreator.MaxIntervalLengthInDays + 1);
-
-			await creator.CreateForIntervalAsync(new TimeInterval() { StartOn = start, EndOn = end });
 		}
 	}
 }
