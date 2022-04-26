@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentReady.Client", "RentRea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentReady.Server", "RentReady.Server\RentReady.Server.csproj", "{B654D368-D3D0-429F-960D-FA22079CD09A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{259C4E82-1898-4671-9AFD-3AEE1AA86994}"
+	ProjectSection(SolutionItems) = preProject
+		add-app-settings.png = add-app-settings.png
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
