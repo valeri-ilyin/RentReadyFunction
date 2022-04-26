@@ -13,6 +13,7 @@ namespace RentReady.Server
 {
     /// <summary>
     /// Парсинг и валидация JSON с запросом к функции TimeEntryFunction
+    /// Валидация Json производится по предоставленной в исходном документ схеме.
     /// </summary>
 	public class TimeIntervalParser
 	{
