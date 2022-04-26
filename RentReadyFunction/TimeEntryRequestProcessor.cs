@@ -44,6 +44,10 @@ namespace RentReadyFunction
 
 				return new OkObjectResult(count);
 			}
+			catch (RequestValidationException ex)
+			{
+				return new BadRequestObjectResult(ex.Message);
+			}
 			catch (Exception ex)
 			{
 				log.LogError((EventId)0, ex, "Server error");

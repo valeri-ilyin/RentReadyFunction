@@ -34,7 +34,7 @@ namespace RentReady.Test.Unit
 		/// Отсутствует поле StartOn
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(JSchemaValidationException))]
+		[ExpectedException(typeof(RequestValidationException))]
 		public void ParseEmptyField()
 		{
 			string json = @"{
@@ -48,7 +48,7 @@ namespace RentReady.Test.Unit
 		/// Некорректная дата
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(JSchemaValidationException))]
+		[ExpectedException(typeof(RequestValidationException))]
 		public void ParseIncorrectDate()
 		{
 			string json = @"{
@@ -64,7 +64,7 @@ namespace RentReady.Test.Unit
 		/// Валидация кейса, когда StartOn календарно раньше чем EndOn
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
+		[ExpectedException(typeof(RequestValidationException))]
 		public void ParseStartDateAfterEndDate()
 		{
 			string json = @"{
@@ -79,12 +79,28 @@ namespace RentReady.Test.Unit
 		/// Некорректная дата - со временем
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(JSchemaValidationException))]
+		[ExpectedException(typeof(RequestValidationException))]
 		public void ParseIncorrectDateWithTime()
 		{
 			string json = @"{
 				'StartOn': '2022-02-02 0:00:00',
 				'EndOn': '2022-02-01'
+			}";
+
+			var timeInterval = new TimeIntervalParser().Parse(json);
+		}
+
+		/// <summary>
+		//// Проверка получения Exception в случае если передан интервал больше максимально дорустимого (1000 дней)
+		/// </summary>
+		/// <returns></returns>
+		[TestMethod]
+		[ExpectedException(typeof(RequestValidationException))]
+		public void ParseIncorrectMaxInterval()
+		{
+			string json = @"{
+				'StartOn': '2022-01-01',
+				'EndOn': '2026-01-01'
 			}";
 
 			var timeInterval = new TimeIntervalParser().Parse(json);

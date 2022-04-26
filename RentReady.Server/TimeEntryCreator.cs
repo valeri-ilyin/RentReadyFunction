@@ -13,7 +13,6 @@ namespace RentReady.Server
 	public class TimeEntryCreator
 	{
 		public static readonly int BatchSize = 50; // PowerApp doesn't accept more then 52 parallel requests 
-		public static readonly int MaxIntervalLengthInDays = 1000;  
 
 		private ITimeEntryRepository repo;
 
@@ -26,19 +25,12 @@ namespace RentReady.Server
 		/// Создание записей TimeEntry в PowerApp по заданному интервалу
 		/// Перед созданием проверяет наличие подобных записей в таблице TimeEntry, чтобы избежать дубликатов
 		/// Создает записи пачками по 50 параллельных запросов (ограничение PowerApp)
-		/// Добавлено ограничение на максимальный интервал, который готовы обработать - 1000 дней. Ограничение введено, 
-		/// чтобы избежать получения на обработку "бесконечных" интервалов. При необходимости может быть увеличено.
 		/// </summary>
 		/// <param name="interval"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
 		public async Task<int> CreateForIntervalAsync(TimeInterval interval)
 		{
-			if ((interval.EndOn - interval.StartOn).TotalDays > MaxIntervalLengthInDays)
-			{
-				throw new ArgumentException("Max interval length is 1000 days"); 
-			}
-
 			var createdItems = await repo.GetTimeEntryListAsync(interval).ToDictionaryAsync(i => i.Start);
 
 			int processedCount = 0;	

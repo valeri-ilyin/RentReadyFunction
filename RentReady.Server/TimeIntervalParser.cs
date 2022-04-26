@@ -11,12 +11,33 @@ using System.Threading.Tasks;
 
 namespace RentReady.Server
 {
+    public class RequestValidationException : ApplicationException
+	{
+        public RequestValidationException()
+        {
+        }
+
+        public RequestValidationException(string message)
+            : base(message)
+        {
+        }
+
+        public RequestValidationException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
     /// <summary>
     /// Парсинг и валидация JSON с запросом к функции TimeEntryFunction
     /// Валидация Json производится по предоставленной в исходном документ схеме.
+    /// Добавлено ограничение на максимальный интервал, который готовы обработать - 1000 дней. Ограничение введено, 
+    /// чтобы избежать получения на обработку "бесконечных" интервалов. 
+    /// При необходимости максимальный может быть увеличен.
     /// </summary>
-	public class TimeIntervalParser
+    public class TimeIntervalParser
 	{
+        public static readonly int MaxIntervalLengthInDays = 1000;
         private IsoDateTimeConverter dateTimeConverter;
 
         public TimeIntervalParser()
@@ -48,17 +69,30 @@ namespace RentReady.Server
 		{
             var schema = JSchema.Parse(schemaJson);
             JObject request = JObject.Parse(requestBody);
-            request.Validate(schema);
+
+            try
+            {
+                request.Validate(schema);
+            }
+            catch (JSchemaValidationException ex)
+			{
+                throw new RequestValidationException(ex.Message, ex);   
+			}
 
             var result = JsonConvert.DeserializeObject<TimeInterval>(requestBody, dateTimeConverter);
             if (result == null)
 			{
-                throw new ArgumentException("TimeInterval deserialization error");
+                throw new RequestValidationException("TimeInterval deserialization error");
 			}
 
             if (result.StartOn > result.EndOn)
 			{
-                throw new ArgumentException("StartOn must be before than EndOn");
+                throw new RequestValidationException("StartOn must be before than EndOn");
+            }
+
+            if ((result.EndOn - result.StartOn).TotalDays > MaxIntervalLengthInDays)
+            {
+                throw new RequestValidationException("Max interval length is 1000 days");
             }
 
             return result;  

@@ -60,27 +60,5 @@ namespace RentReady.Test.Unit
 			Assert.AreEqual(1, count);
 			repoMock.Verify(s => s.CreateTimeEntryAsync(It.IsAny<TimeEntry>()), Times.Exactly(1));
 		}
-
-		/// <summary>
-		//// Проверка получения Exception в случае если передан интервал больше максимально дорустимого 
-		/// </summary>
-		/// <returns></returns>
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
-		public async Task CreateForIntervalMaxInterval()
-		{
-			var repoMock = new Mock<ITimeEntryRepository>();
-			var resultList = new List<TimeEntry>();
-
-			repoMock.Setup(m => m.CreateTimeEntryAsync(It.IsAny<TimeEntry>()).Result).Returns(Guid.NewGuid());
-			repoMock.Setup(m => m.GetTimeEntryListAsync(It.IsAny<TimeInterval>())).Returns(resultList.ToAsyncEnumerable());
-
-			var start = DateTimeHelper.CreateDateTime(2022, 4, 01);
-			var end = start.AddDays(TimeEntryCreator.MaxIntervalLengthInDays + 1);
-			var creator = new TimeEntryCreator(repoMock.Object);
-			var count = await creator.CreateForIntervalAsync(new TimeInterval() { StartOn = start, EndOn = end });
-
-			await creator.CreateForIntervalAsync(new TimeInterval() { StartOn = start, EndOn = end });
-		}
 	}
 }
